@@ -1,0 +1,89 @@
+---
+title:  "Implementing an internal overlay in DirectX 8"
+date:   2023-01-02 
+thumbnail: "/assets/ovl.png"
+---
+
+### [](#header-1)The mission
+I met [Polymega](https://github.com/Polymega) while digging around Silent Hill 3's memory and contributing to [JokieW's Silent Hill Database](https://github.com/JokieW/SilentHillDatabase), and noticed that one of the things left on the To-Do list on the Silent Hill 2: Enhanced Edition was an overlay that could display debug info on the fly, and I took it as a fun learning opportunity. My first prototype was a basic text with a black box behind it, just to get my feet wet with DirectX programming:
+![First POC for the overlay](https://user-images.githubusercontent.com/29315076/186924050-e0c26746-981a-42b2-ba2e-7ef3042c1d14.png)
+This was, initially, implemented in a separate dll injected at runtime, and it took an embarassing amount of time to achieve.
+
+I started then porting the little code I wrote, pieced around from tutorials on the internet, from DirectX 9 to 8. This proved less than trivial, since the two are similar enough to keep the same overall structure, but different enough to make things... not work.
+
+### [](#header-1)Finding the right documentation
+Fiding documentation on DirectX8 programming was no easy task, there are some resources online like [this microsoft one](https://learn.microsoft.com/en-us/windows/win32/direct3d9/id3dxfont--drawtext), but it's less than ideal to sift through and often incomplete. I then found that, inside the DirectX8 SDK files, was an old .chm file with quite the detailed documentation, but less than stellar searching algorythm. Will do, anyway. For those that may wish to consult it, it's located in ```SDK_DIR\DXF\DXSDK\doc\DirectX8\```.
+![DirectX8 Official bundled documentation](https://user-images.githubusercontent.com/29315076/210256483-4c7ca7de-0bdb-4c5e-ad8b-a156ab343622.jpg)
+
+### [](#header-1)Progress porting from Directx9 to 8
+After the initial issues, like cleaning up the font on window resize and various rendering issues, we got to a point where we could draw the overlay from the Enhanced Edition dll:
+![Drawing the overlay from the EE dll](https://user-images.githubusercontent.com/29315076/210256748-c54f602f-db51-4b39-a308-ad84c583b0d7.png)
+Since the black box behind it was less than aesthetically pleasing, I tried to implement some kind of transparency in it, but quickly found out that that was no easy feat in DX8, luckily the great Polymega came up with an ingenious solution, which was to draw the text with a kind of drop shadow behind it, to make it as legible as possible in various parts of the game.
+
+![The drop shadow example](https://user-images.githubusercontent.com/29315076/210256753-5e33ca17-f4e6-45bf-b05d-d1e7493b5ed4.png)
+
+After this, it was just a question of dialing in various addresses for information to insert in the overlay, and various aesthetic fixes to position, size and font. In the end, this is the finished feature, with a bonus "Stats" overlay that could help the completionists among you.
+
+![The finished (maybe) overlay](https://user-images.githubusercontent.com/29315076/210257446-40a210d9-8dd9-4879-8d9f-e5f5657da4f4.jpg)
+
+### [](#header-1)Let's talk code for a bit
+This was my first experience with graphics programming, so I'm not claiming this is *the* way to do it, but certainly is my way.
+Luckily, the DirectX8 functions hooking was already taken care of in the project, so I had free reign to mess with them as I pleased!
+The theory of operation is simple, we just:
+* Create a font at startup
+* Each frame populate the text
+* Before the EndScene() function is called, we draw our text to overimpose it on the game screen
+
+In code:
+```cpp
+void Overlay::DrawDebugText(LPDIRECT3DDEVICE8 ProxyInterface, Overlay::D3D8TEXT FontStruct)
+{
+	// Note that the position where to draw the black dropshadowed text is just offset by 1 on both axis
+	RECT DropShadowRect = FontStruct.Rect;
+	DropShadowRect.top = DropShadowRect.top + DropShadowOffset;
+	DropShadowRect.left = DropShadowRect.left + DropShadowOffset;
+
+	// This flag is set when changing resolution, we have to reload the font
+	if (ResetDebugFontFlag)
+	{
+		ResetDebugFontFlag = false;
+		DebugFont->OnResetDevice();
+	}
+
+	// If the interface is present but the font hasn't been created yet, we do so
+	if (ProxyInterface != nullptr && DebugFont == nullptr)
+	{
+		HFONT FontCharacteristics = CreateFontA(16, 0, 0, 0, FW_BOLD, 0, 0, 0, 0, 0, 0, ANTIALIASED_QUALITY, 0, FontName);
+		if (FontCharacteristics != NULL)
+		{
+			Logging::LogDebug() << __FUNCTION__ << " Creating Debug font: " << FontName;
+			D3DXCreateFont(ProxyInterface, FontCharacteristics, &DebugFont);
+			DeleteObject(FontCharacteristics);
+		}
+	}
+
+	// And finally, draw the text on screen
+	if (DebugFont != nullptr)
+	{
+		DebugFont->DrawTextA(FontStruct.String, -1, &DropShadowRect, FontStruct.Format, TextColors.Black);
+		DebugFont->DrawTextA(FontStruct.String, -1, &FontStruct.Rect, FontStruct.Format, FontStruct.Color);
+	}
+}
+```
+The Font Structs are just structs containing things like what to print, the Rect that has the position on where to print it, color and such.
+
+Since C++ is C++, the hardest part was maybe getting it to compile with the new libs, includes and the like.
+
+If some other SH2:EE dev is reading this, I've also added a handy ```AuxDebugOvlString``` in ```Patches.h```, which is included almost ubiquitously, that gets drawn as well. So you may populate it wherever you like to test and debug what you're working on, I found it immensely useful while implementing the Mouse input I talk about [here](https://mercury501.github.io/mouseinput), just remember that DX8 uses ```'\r'``` to go to the next line.  
+
+### [](#header-1)Final thoughts
+In the end, as much as I hate "frontend" work usually, this was quite a fun and rewarding experience, and demistified a lot about graphics work in general. 
+
+I'd like this small writeup to help some of the less experienced devs that, like me, find tasks like these daunting at first sight, and how when coding most complex problems can be divided into many simpler ones, to dissect individually.
+
+You can expect this to release in the next update, which is going to be *soon*™, alongside my Mouse Input Enhancement and a proper and true 60 FPS mode, which took a considerable amount of effort from lots of people to achieve.
+
+Thanks for reading!
+
+
+[![](https://visitcount.itsvg.in/api?id=mercury501&label=Article%20Views&color=12&icon=3&pretty=true)](https://visitcount.itsvg.in)
