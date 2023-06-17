@@ -13,4 +13,4 @@ sidebar:
     text: "Translating settings and descriptions in italian."
 ---
 
-Being from Italy, and involved in the Silent Hill 2: Enhanced Edition project, I took it upon myself to translate settings names and descriptions in italian.
+Being from Italy, and involved in the Silent Hill 2: Enhanced Edition project, I took it upon myself to translate the project's launcher tool to Italian. There are a lot of options, descriptions, and settings included in this tool, so translating everything was no quick tasks. But in doing so, it opens a large accessibility door for Italian fans and players to better enjoy the game and our project.
