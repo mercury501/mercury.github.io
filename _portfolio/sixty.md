@@ -23,5 +23,4 @@ gallery:
   #  alt: "placeholder image 3"
 ---
 
-I implemented most of the fixes found to fix bugs that emerged when playing Silent Hill 2 in 60 FPS, as discussed [here](https://github.com/elishacloud/Silent-Hill-2-Enhancements/issues/28).
-This involved reverse engineering, implementing them in code and testing.
+Fixing 60 fps bugs for Silent Hill 2 was a multi-person effort. While this was a team effort, all of the features and fixes for 60 fps ultimately need to be coded and implemented into one source for full, proper testing. For this task, I implemented the majority of 60 fps fixes submitted to the Enhanced Edition project, as discussed here. Additionally, for those that helped with this task that aren't programming literate, I translated their pseudo code  into actual C++ fixes for the project to understand, as well. This involved reverse engineering, implementing them in code and testing.

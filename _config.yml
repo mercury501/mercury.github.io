@@ -105,8 +105,8 @@ analytics:
 # Site Author
 author:
   name             : "mercury501"
-  avatar           : # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
-  bio              : "Software developer, game modder, reverse engineer."
+  avatar           : "/assets/images/prof.jpg"
+  bio              : "Software developer, game modder, reverse engineer. <br> C, C++, rust, python, Java"
   location         : "Italy"
   email            :
   links:

@@ -28,3 +28,5 @@ gallery:
 
 The feature consisted in a debug overlay to show various information about the player, the game’s event indexes and our own added features, and also an information overlay to show relevant values towards 100% completion.
 The implementation consisted of creating fonts using the DirectX8 API and drawing text on the screen, at the end of the frame drawing pipeline.
+
+Relevant blog post [here](https://mercury501.github.io/overlay/)
