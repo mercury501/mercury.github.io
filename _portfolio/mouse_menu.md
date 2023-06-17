@@ -23,9 +23,9 @@ gallery:
   #  alt: "placeholder image 3"
 ---
 
-TEXT
+I started reverse engineering Silent Hill 2’s cursor because of an issue (link) that asked for a way to hide the cursor while using a controller.
+Since I learned how to hide the cursor, after a few seconds of inactivity, it came natural to try and enable it in menus that lacked it, namely the pause screen and the memo list screen.
 
 {% include gallery caption="Screenshots taken while developing the feature." %}
 
-TEXT
-
+To handle mouse interaction, I wrote a custom solution accounting for changes in game resolution, and handled interactions with the game by identifying the addresses for various indexes and updating them accordingly.

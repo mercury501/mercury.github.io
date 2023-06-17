@@ -1,6 +1,6 @@
 ---
-title: "SH2:EE Overlays"
-excerpt: "Text Overlays for Silent Hill 2: Enhanced Edition."
+title: "SH2:EE 60 FPS fixes"
+excerpt: "60 FPS fixes for Silent Hill 2: Enhanced Edition."
 header:
   image: /assets/images/overlay_header.png
   teaser: assets/images/ovl.png
@@ -18,13 +18,14 @@ gallery:
   - url: /assets/images/overlay_start.png
     image_path: assets/images/overlay_start.png
     alt: "Testing the overlay"
-  - url: /assets/images/overlays.png
-    image_path: assets/images/overlays.png
-    alt: "Both overlays"
+  #- url: /assets/images/unsplash-gallery-image-3.jpg
+  #  image_path: assets/images/unsplash-gallery-image-3-th.jpg
+  #  alt: "placeholder image 3"
 ---
+
+TEXT
 
 {% include gallery caption="Screenshots taken while developing the feature." %}
 
+TEXT
 
-The feature consisted in a debug overlay to show various information about the player, the game’s event indexes and our own added features, and also an information overlay to show relevant values towards 100% completion.
-The implementation consisted of creating fonts using the DirectX8 API and drawing text on the screen, at the end of the frame drawing pipeline.

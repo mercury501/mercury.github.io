@@ -23,5 +23,6 @@ sidebar:
   #  alt: "placeholder image 3"
 ---
 
-TEXT
+Traditionally, Silent Hill 2’s utilization of the mouse was limited to a couple menus and the title screen, so I reverse engineered the game’s own input handling and translated DirectInput data coming from the mouse to emulate an analog stick. I’ve also implemented some QOL features, such as using mouse buttons to fire/aim, a toggle run feature and, in time, the keyboard input filtering feature came in handy to solve some bugs related to the 60 FPS feature.
 
+This involved lots of testing and fixing behaviours all around the game.

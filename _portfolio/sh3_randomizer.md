@@ -23,9 +23,8 @@ gallery:
   #  alt: "placeholder image 3"
 ---
 
-TEXT
+Being inspired by [this piece of software](https://github.com/JokieW/RandomHill) and while learning a bit of the rust language, I figured this would be the perfect project to learn and have fun with Silent Hill.
 
 {% include gallery caption="Screenshots taken while developing the feature." %}
 
-TEXT
-
+The tool is written completely from scratch in rust, and lets the player change the spawn odds for all the monsters in the game.

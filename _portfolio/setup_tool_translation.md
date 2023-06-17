@@ -13,5 +13,4 @@ sidebar:
     text: "Translating settings and descriptions in italian."
 ---
 
-TEXT
-
+Being from Italy, and involved in the Silent Hill 2: Enhanced Edition project, I took it upon myself to translate settings names and descriptions in italian.
