@@ -27,4 +27,4 @@ Being inspired by [this piece of software](https://github.com/JokieW/RandomHill)
 
 {% include gallery caption="Screenshots taken while developing the feature." %}
 
-The tool is written completely from scratch in rust, and lets the player change the spawn odds for all the monsters in the game.
+The tool is written completely [from scratch](https://github.com/mercury501/silent_hill_randomizer) in rust, and lets the player change the spawn odds for all the monsters in the game.
